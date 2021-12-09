@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/FloatingPawnMovement.h"
+#include "UI/PlayerGameHud.h"
 #include "MyPlayer.generated.h"
 
 UCLASS()
@@ -21,11 +22,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UFUNCTION(BlueprintCallable)
+	void LoseLife();
 
-	void MoveBasket(float axis);
-	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -34,14 +33,15 @@ protected:
 public:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* BasketMesh;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Movement")
+	float MaxSpeed;
+
+	UPROPERTY()
+	int Lives;
+
+	UPROPERTY(BlueprintReadOnly)
+	UPlayerGameHud* PlayerHUD;
 	
-	UPROPERTY(EditAnywhere)
-	UCameraComponent* Camera;
-
-	UPROPERTY(EditAnywhere)
-	UBoxComponent* CollisionBox;
-
-	UPROPERTY(EditAnywhere)
-	UFloatingPawnMovement* MovementComponent;
-
+	
 };

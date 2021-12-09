@@ -2,12 +2,17 @@
 
 
 #include "MyPlayer.h"
+
+#include "APGameInstance.h"
 #include "Components/InputComponent.h"
-#include "GameFramework/FloatingPawnMovement.h"
+#include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
 AMyPlayer::AMyPlayer()
+	: MaxSpeed(10.f)
+	, Lives(3) 
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -16,20 +21,23 @@ AMyPlayer::AMyPlayer()
 
 	BasketMesh = CreateDefaultSubobject<UStaticMeshComponent>("BasketMesh");
 	BasketMesh->SetupAttachment(RootComponent);
-
-	CollisionBox = CreateDefaultSubobject<UBoxComponent>("CollisionBox");
-	CollisionBox->SetupAttachment(RootComponent);
-	
-	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
-
-	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>("MovementComponent");
-
 }
 
 // Called when the game starts or when spawned
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == FString("Main"))
+	{
+		PlayerHUD = CreateDefaultSubobject<UPlayerGameHud>("GameHud");
+		PlayerHUD->AddToViewport();
+		PlayerHUD->SetHP(Lives);
+//TODO
+		//Cast<BP_GameState>(GetWorld()->GetGameState());
+
+		PlayerHUD->SetScore(0);
+	}
 	
 }
 
@@ -37,20 +45,18 @@ void AMyPlayer::BeginPlay()
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-// Called to bind functionality to input
-void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AMyPlayer::LoseLife()
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	Lives -= 1;
+	PlayerHUD->SetHP(Lives);
 
-	PlayerInputComponent->BindAxis("LeftRight", this, &AMyPlayer::MoveBasket);
-}
-
-void AMyPlayer::MoveBasket(float axis)
-{
-	AddActorWorldOffset(GetActorRightVector() * axis * 2.0);
-	//AddMovementInput(GetActorRightVector(), axis * 10.0);
+	if (Lives <= 0)
+	{
+// TODO		
+//		GetGameState() set Alive - false
+		Cast<UAPGameInstance>(GetGameInstance())->GameOver();
+	}
 }
 
