@@ -7,16 +7,16 @@
 
 UAPGameInstance::UAPGameInstance(const FObjectInitializer& ObjectInitializer)
 {
-	static ConstructorHelpers::FClassFinder<UWD_Pause> InGameBPPauseClass(TEXT("/Game/Blueprints/CPP/UI/WBP_Payse"));
+	static ConstructorHelpers::FClassFinder<UWD_Pause> InGameBPPauseClass(TEXT("/Game/Blueprints/UI/WBP_Payse"));
 	InGamePauseClass = InGameBPPauseClass.Class;
 
-	static ConstructorHelpers::FClassFinder<UWD_Options> InGameBPOptionsClass(TEXT("/Game/Blueprints/CPP/UI/WBP_Options"));
+	static ConstructorHelpers::FClassFinder<UWD_Options> InGameBPOptionsClass(TEXT("/Game/Blueprints/UI/WBP_Options"));
 	InGameOptionsClass = InGameBPOptionsClass.Class;
 
-	static ConstructorHelpers::FClassFinder<UWD_GameOver> InGameBPGameOverClass(TEXT("/Game/Blueprints/CPP/UI/WBP_GameOver"));
+	static ConstructorHelpers::FClassFinder<UWD_GameOver> InGameBPGameOverClass(TEXT("/Game/Blueprints/UI/WBP_GameOver"));
 	InGameGameOverClass = InGameBPGameOverClass.Class;
 
-	static ConstructorHelpers::FClassFinder<UWD_MainMenu> InGameBPMainMenuClass(TEXT("/Game/Blueprints/CPP/UI/WBP_MainMenu"));
+	static ConstructorHelpers::FClassFinder<UWD_MainMenu> InGameBPMainMenuClass(TEXT("/Game/Blueprints/UI/WBP_MainMenu"));
 	InGameMainMenuClass = InGameBPMainMenuClass.Class;
 
 	

@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/TextBlock.h"
 #include "GameFramework/PlayerController.h"
 #include "MainPlayerController.generated.h"
+class AAPPlayer;
 /**
  * 
  */
@@ -14,9 +14,19 @@ class APPLEPICKER_API AMainPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
-
+protected:
+	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
 	
+public:
+	UPROPERTY()
+	AAPPlayer* PlayerPawn;
+
+	UFUNCTION()
+	void OnAxisEventLeftRight(float Axis);
+
+	UFUNCTION()
+	void OnActionEventPause();
 	
 
 	
